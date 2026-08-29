@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Gerçek hasta verisi kullanmadan motor sinir iletimi uygulama ve yorumlama eğitimi."
+    />
+    <title>NeuroEDX Lab — EMG/NCS Eğitim Simülatörü</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">N<span>/</span></span>
+          <span>
+            <strong>NeuroEDX Lab</strong>
+            <small>Clinician-led OSS</small>
+          </span>
+        </div>
+        <div class="badges">
+          <span class="badge badge-data"><i></i>Sentetik veri</span>
+          <span class="badge badge-version">v0.1</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Motor sinir iletimi · Modül 01</p>
+          <h1>Median sinir <span>/ APB</span></h1>
+          <p class="lede">
+            Uyarıyı optimize et, onset belirteçlerini yerleştir ve segment hızını teknik hataya düşmeden yorumla.
+          </p>
+        </div>
+        <aside class="education-note">
+          <span aria-hidden="true">i</span>
+          <p><strong>Eğitim modu:</strong> Gerçek hasta verisi kullanılmaz.</p>
+        </aside>
+      </section>
+
+      <section aria-labelledby="scenario-title" class="scenario-section">
+        <div class="section-row">
+          <h2 id="scenario-title" class="section-label">Öğrenme senaryosu</h2>
+          <button id="reset-button" class="text-button" type="button">↻ Sıfırla</button>
+        </div>
+        <div id="scenario-list" class="scenario-list"></div>
+      </section>
+
+      <div class="workbench">
+        <section class="instrument" aria-labelledby="trace-title">
+          <div class="instrument-header">
+            <div>
+              <p class="instrument-kicker">Canlı sentetik kayıt</p>
+              <h2 id="trace-title"><span id="site-heading">Bilek uyarımı</span> · CMAP</h2>
+            </div>
+            <div class="site-switch" role="group" aria-label="Uyarı noktası">
+              <button class="site-button active" data-site="wrist" type="button">Bilek</button>
+              <button class="site-button" data-site="elbow" type="button">Dirsek</button>
+            </div>
+          </div>
+
+          <div class="trace-body">
+            <div class="trace-metrics">
+              <article><span>⚡</span><p><small>Akım</small><strong id="current-metric">46 mA</strong></p></article>
+              <article><span>∿</span><p><small>CMAP</small><strong id="amplitude-metric">8.6 mV</strong></p></article>
+              <article><span>⌖</span><p><small>Marker</small><strong id="marker-metric">4.2 ms</strong></p></article>
+            </div>
+
+            <div class="trace-window" role="img" aria-label="Sentetik CMAP dalga formu">
+              <svg id="trace-svg" viewBox="0 0 760 270" aria-hidden="true">
+                <defs>
+                  <linearGradient id="trace-gradient" x1="0" x2="1">
+                    <stop offset="0" stop-color="#5ce2cf" />
+                    <stop offset="0.65" stop-color="#d9fff7" />
+                    <stop offset="1" stop-color="#70b9ff" />
+                  </linearGradient>
+                  <filter id="trace-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                </defs>
+                <g id="trace-grid"></g>
+                <path d="M 7 115 L 7 132 L 11 102 L 15 144 L 18 123" fill="none" stroke="#ff9b67" stroke-width="2" />
+                <path id="trace-path" fill="none" stroke="url(#trace-gradient)" stroke-width="3" stroke-linecap="round" filter="url(#trace-glow)" />
+                <line id="marker-line" y1="8" y2="238" stroke="#f6c95c" stroke-width="2" stroke-dasharray="5 5" />
+                <circle id="marker-dot" cy="14" r="5" fill="#f6c95c" />
+                <g id="trace-labels"></g>
+              </svg>
+              <span class="calibration">2 ms/div · eğitsel ölçek</span>
+            </div>
+          </div>
+
+          <div class="instrument-controls">
+            <label class="control">
+              <span class="control-top">
+                <span><small>Uyarı akımı</small><strong id="current-value">46 mA</strong></span>
+                <em id="current-status">Yanıt platosu doğrulandı</em>
+              </span>
+              <input id="current-slider" type="range" min="10" max="80" step="1" value="46" />
+            </label>
+            <label class="control marker-control">
+              <span class="control-top">
+                <span><small>Onset belirteci</small><strong id="marker-value">4.2 ms</strong></span>
+                <em>İlk kalıcı defleksiyonu bul</em>
+              </span>
+              <input id="marker-slider" type="range" min="1" max="14" step="0.1" value="4.2" />
+            </label>
+          </div>
+        </section>
+
+        <aside class="side-stack">
+          <section class="paper-panel" aria-labelledby="placement-title">
+            <div class="panel-heading">
+              <div><p class="section-label">Kayıt düzeni</p><h2 id="placement-title">Elektrot & uyarı yerleşimi</h2></div>
+              <span>A</span>
+            </div>
+            <svg class="placement" viewBox="0 0 430 142" role="img" aria-label="Median motor NCS elektrot yerleşimi">
+              <path d="M38 69 C93 52 155 47 216 54 C273 61 318 60 390 47" fill="none" stroke="#c5ccc3" stroke-width="32" stroke-linecap="round" />
+              <path d="M38 69 C93 52 155 47 216 54 C273 61 318 60 390 47" fill="none" stroke="#e8e8de" stroke-width="26" stroke-linecap="round" />
+              <path d="M62 69 C141 53 205 53 286 58" fill="none" stroke="#d58a6e" stroke-width="2" stroke-dasharray="4 5" />
+              <g id="elbow-node"><line x1="74" y1="36" x2="74" y2="89"/><circle cx="74" cy="61" r="8"/><circle class="node-dot" cx="74" cy="61" r="3"/></g>
+              <g id="wrist-node" class="selected"><line x1="282" y1="37" x2="282" y2="91"/><circle cx="282" cy="58" r="12"/><circle class="node-dot" cx="282" cy="58" r="3"/></g>
+              <rect x="210" y="42" width="19" height="27" rx="4" fill="#637d84" />
+              <circle cx="350" cy="47" r="10" fill="#1c8c83" stroke="#f8f5ec" stroke-width="4" />
+              <circle cx="381" cy="43" r="8" fill="#f2a85f" stroke="#f8f5ec" stroke-width="3" />
+              <text x="47" y="108">DİRSEK</text><text x="263" y="108">BİLEK</text>
+              <text x="198" y="86">TOPRAK</text><text x="335" y="81">G1 · APB</text><text x="369" y="25">G2</text>
+            </svg>
+            <div class="legend"><span><i class="g1"></i>G1 · APB</span><span><i class="g2"></i>G2 · tendon</span><span><i class="ground"></i>Toprak</span></div>
+          </section>
+
+          <section class="paper-panel" aria-labelledby="measure-title">
+            <div class="panel-heading">
+              <div><p class="section-label">Hesap zinciri</p><h2 id="measure-title">Segment ölçümü</h2></div>
+              <span>B</span>
+            </div>
+            <label class="distance-box">
+              <span><b>↔ İki uyarı noktası</b><strong id="distance-value">24.0 cm</strong></span>
+              <input id="distance-slider" type="range" min="18" max="30" step="0.5" value="24" />
+              <small><i>18 cm</i><i>30 cm</i></small>
+            </label>
+            <div class="latencies">
+              <span><small>Bilek latansı</small><strong id="wrist-latency">4.2 ms</strong></span>
+              <b>↔</b>
+              <span class="right"><small>Dirsek latansı</small><strong id="elbow-latency">8.2 ms</strong></span>
+            </div>
+            <div class="velocity">
+              <span><small>İletim hızı</small><code>cm × 10 / Δlatans</code></span>
+              <strong><span id="velocity-value">60.0</span> <small>m/s</small></strong>
+            </div>
+          </section>
+
+          <section class="paper-panel" aria-labelledby="feedback-title">
+            <div class="confidence">
+              <div><p class="section-label">Teknik güven</p><h2 id="feedback-title"><span id="check-count">1</span>/3 kontrol hazır</h2></div>
+              <span id="score-ring" class="score-ring">1</span>
+            </div>
+            <div class="checks">
+              <span id="stim-check">Uyarı</span><span id="marker-check">Marker</span><span id="distance-check">Mesafe</span>
+            </div>
+            <div id="feedback" class="feedback" hidden></div>
+            <button id="evaluate-button" class="primary-button" type="button">Ölçümü değerlendir <span>⌖</span></button>
+          </section>
+        </aside>
+      </div>
+
+      <section class="protocol" aria-labelledby="protocol-title">
+        <div class="protocol-intro">
+          <p class="section-label">Uygulama protokolü</p>
+          <h2 id="protocol-title">Üç kapı kuralı</h2>
+          <p>Her yorumdan önce hazırlık, kayıt ve teknik doğrulama kapılarından geç.</p>
+        </div>
+        <div class="protocol-grid">
+          <article><span>♨</span><b>01</b><h3>Hazırla</h3><p>Ekstremite ısısını ve rahat pozisyonu doğrula; elektrot temasını kontrol et.</p></article>
+          <article><span>∿</span><b>02</b><h3>Kaydet</h3><p>G1’i APB motor noktasına, G2’yi tendona; toprağı uyarı ile kayıt arasına yerleştir.</p></article>
+          <article><span>✓</span><b>03</b><h3>Doğrula</h3><p>Akımı yanıt plato yapana dek artır; onset belirteçlerini ve segment mesafesini kontrol et.</p></article>
+        </div>
+      </section>
+
+      <footer>
+        <p><strong>Eğitim amaçlı prototip.</strong> Hasta tanısı, raporlama veya klinik karar için kullanılmaz.</p>
+        <p>Synthetic-only · no PHI · Apache-2.0</p>
+      </footer>
+    </main>
+
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
