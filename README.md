@@ -8,7 +8,7 @@ The first module teaches median motor nerve conduction recording from the abduct
 
 ## Live demo
 
-Try the public simulator at [edx.ucugur.chatgpt.site](https://edx.ucugur.chatgpt.site). It uses synthetic teaching scenarios only and is intended for education, not diagnosis or patient care.
+Try the public simulator at [edx.ucugur.chatgpt.site/lab](https://edx.ucugur.chatgpt.site/lab). It uses synthetic teaching scenarios only and is intended for education, not diagnosis or patient care.
 
 ## Why this project exists
 
