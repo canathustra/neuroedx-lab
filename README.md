@@ -6,6 +6,17 @@ NeuroEDX Lab is a clinician-led, open-source simulator for learning how to perfo
 
 The first module teaches median motor nerve conduction recording from the abductor pollicis brevis (APB). Learners adjust stimulation, place onset markers, enter segment distance, and receive technique-first feedback before interpreting a synthetic pattern.
 
+**Status:** Educational prototype. The current simulator covers median motor NCS / APB recording. Broader protocol coverage and a tagged v0.1 release remain roadmap goals.
+
+## Start here
+
+| Resource | Purpose | Open |
+|---|---|---|
+| Median motor NCS simulator | Stimulation, CMAP onset markers, segment distance, and technique-first feedback | [Public demo](https://edx.ucugur.chatgpt.site/lab) or run locally |
+| Interactive MUAP presentation | Turkish teaching deck with 121 progressive slides | [Presentation file](presentation/MUAP_Hazir_Sunum.html) · [Scope and controls](presentation/README.md) |
+
+The repository presentation and the presentation on the live site are separate versions; the slide count above describes this repository.
+
 ## Live demo
 
 Try the public simulator at [edx.ucugur.chatgpt.site/lab](https://edx.ucugur.chatgpt.site/lab). It uses synthetic teaching scenarios only and is intended for education, not diagnosis or patient care.
@@ -21,7 +32,7 @@ NCS education often depends on access to a laboratory, proprietary teaching mate
 - a Turkish-first interface that can be localized;
 - zero runtime dependencies and no build step.
 
-## v0.1 scope
+## Current simulator scope
 
 - Median motor NCS / APB recording setup
 - Wrist and elbow stimulation controls
@@ -46,17 +57,42 @@ See [presentation/README.md](presentation/README.md) for scope and controls.
 
 ## Run locally
 
-Serve the repository with any static HTTP server:
+Clone the repository and enter its directory:
+
+```bash
+git clone https://github.com/canathustra/neuroedx-lab.git
+cd neuroedx-lab
+```
+
+Serve the repository with any static HTTP server. For example, with Python 3:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`. To run the calculation tests:
+On Windows with the Python launcher:
+
+```powershell
+py -m http.server 8000
+```
+
+Then open [http://localhost:8000](http://localhost:8000) in a modern browser. The simulator uses JavaScript modules, so serve it over HTTP. No package installation or build step is required.
+
+To run the calculation tests with Node.js and its built-in test runner:
 
 ```bash
 node --test ncs-core.test.mjs
 ```
+
+## Repository map
+
+| Path | Contents |
+|---|---|
+| [index.html](index.html), [styles.css](styles.css) | Simulator interface and styling |
+| [app.mjs](app.mjs) | Teaching scenarios, controls, and feedback |
+| [ncs-core.mjs](ncs-core.mjs), [ncs-core.test.mjs](ncs-core.test.mjs) | Calculation functions and tests |
+| [presentation/](presentation/) | Self-contained MUAP teaching presentation |
+| [DATA_POLICY.md](DATA_POLICY.md), [CLINICAL_GOVERNANCE.md](CLINICAL_GOVERNANCE.md) | Data boundaries and review requirements |
 
 ## Calculation
 
@@ -86,8 +122,13 @@ These links are references, not copied source material. No textbook pages, propr
 
 ## Contributing
 
-Clinical neurophysiologists, neurologists, physiatrists, technologists, educators, designers, and developers are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md). The 30-day path is in [ROADMAP.md](ROADMAP.md).
+Clinical neurophysiologists, neurologists, physiatrists, technologists, educators, designers, and developers are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md). The planned development path is in [ROADMAP.md](ROADMAP.md); roadmap entries do not imply completed features or clinical review. See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for participation and [SECURITY.md](SECURITY.md) for reporting a security or sensitive-data concern.
+
+## Related projects
+
+- [Clinical Neurology Portfolio](https://github.com/canathustra/clinical-neurology-portfolio): the public teaching-material archive.
+- [AFV Benchmark](https://github.com/canathustra/afv-benchmark): exploratory EEG alpha-frequency research software.
 
 ## License
 
-Apache License 2.0. See [LICENSE](LICENSE).
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for attribution and third-party rights.
