@@ -12,14 +12,14 @@ The first module teaches median motor nerve conduction recording from the abduct
 
 | Resource | Purpose | Open |
 |---|---|---|
-| Median motor NCS simulator | Stimulation, CMAP onset markers, segment distance, and technique-first feedback | [Public demo](https://edx.ucugur.chatgpt.site/lab) or run locally |
+| Median motor NCS simulator | Stimulation, CMAP onset markers, segment distance, and technique-first feedback | [Public demo](https://www.ucugur.workers.dev/lab) or run locally |
 | Interactive MUAP presentation | Turkish teaching deck with 121 progressive slides | [Presentation file](presentation/MUAP_Hazir_Sunum.html) · [Scope and controls](presentation/README.md) |
 
 The repository presentation and the presentation on the live site are separate versions; the slide count above describes this repository.
 
 ## Live demo
 
-Try the public simulator at [edx.ucugur.chatgpt.site/lab](https://edx.ucugur.chatgpt.site/lab). It uses synthetic teaching scenarios only and is intended for education, not diagnosis or patient care.
+Try the public simulator at [www.ucugur.workers.dev/lab](https://www.ucugur.workers.dev/lab). It uses synthetic teaching scenarios only and is intended for education, not diagnosis or patient care.
 
 ## Why this project exists
 
