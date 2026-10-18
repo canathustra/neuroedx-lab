@@ -6,6 +6,8 @@ NeuroEDX Lab is a clinician-led, open-source simulator for learning how to perfo
 
 The first module teaches median motor nerve conduction recording from the abductor pollicis brevis (APB). Learners adjust stimulation, place onset markers, enter segment distance, and receive technique-first feedback before interpreting a synthetic pattern.
 
+**Archived (October 2026):** this repository is read-only. The simulator now lives on the main website: <https://www.ucugur.workers.dev/lab>.
+
 **Status:** Educational prototype. The current simulator covers median motor NCS / APB recording. Broader protocol coverage and a tagged v0.1 release remain roadmap goals.
 
 ## Start here
